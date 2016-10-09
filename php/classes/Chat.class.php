@@ -99,14 +99,18 @@ class Chat{
 		$result = DB::query('SELECT * FROM webchat_users ORDER BY name ASC LIMIT 18');
 		
 		$users = array();
-		while($user = $result->fetch_object()){
-			$user->gravatar = Chat::gravatarFromHash($user->gravatar,30);
-			$users[] = $user;
+		if($result) {
+			while($user = $result->fetch_object()){
+				$user->gravatar = Chat::gravatarFromHash($user->gravatar,30);
+				$users[] = $user;
+			}
+			
+			$total_users = DB::query('SELECT COUNT(*) as cnt FROM webchat_users')->fetch_object()->cnt;
 		}
 	
 		return array(
 			'users' => $users,
-			'total' => DB::query('SELECT COUNT(*) as cnt FROM webchat_users')->fetch_object()->cnt
+			'total' => $total_users
 		);
 	}
 	
@@ -116,18 +120,20 @@ class Chat{
 		$result = DB::query('SELECT * FROM webchat_lines WHERE id > '.$lastID.' ORDER BY id ASC');
 	
 		$chats = array();
-		while($chat = $result->fetch_object()){
-			
-			// Returning the GMT (UTC) time of the chat creation:
-			
-			$chat->time = array(
-				'hours'		=> gmdate('H',strtotime($chat->ts)),
-				'minutes'	=> gmdate('i',strtotime($chat->ts))
-			);
-			
-			$chat->gravatar = Chat::gravatarFromHash($chat->gravatar);
-			
-			$chats[] = $chat;
+		if($result) {
+			while($chat = $result->fetch_object()){
+		
+				// Returning the GMT (UTC) time of the chat creation:
+		
+				$chat->time = array(
+					'hours'		=> gmdate('H',strtotime($chat->ts)),
+					'minutes'	=> gmdate('i',strtotime($chat->ts))
+				);
+		
+				$chat->gravatar = Chat::gravatarFromHash($chat->gravatar);
+		
+				$chats[] = $chat;
+			}
 		}
 	
 		return array('chats' => $chats);
