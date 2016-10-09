@@ -15,6 +15,7 @@ $dbOptions = array(
 error_reporting(E_ALL ^ E_NOTICE);
 
 require "classes/DB.class.php";
+require "classes/Logger.class.php";
 require "classes/Chat.class.php";
 require "classes/ChatBase.class.php";
 require "classes/ChatLine.class.php";

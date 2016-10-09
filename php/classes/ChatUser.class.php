@@ -6,6 +6,8 @@ class ChatUser extends ChatBase{
 	
 	public function save(){
 		
+		Logger::info("name: ".$this->name." | gravatar: ".$this->gravatar);
+		
 		DB::query("
 			INSERT INTO webchat_users (name, gravatar)
 			VALUES (
