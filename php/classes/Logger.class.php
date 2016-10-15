@@ -3,7 +3,8 @@
 class Logger {
 	
 	public static function info($msg){
-      error_log($msg."\n", 3, '/var/log/aitecPHP/log.txt');
+	  $now = date("Y-m-d H:i:s");
+      error_log($now.": ".$msg."\n", 3, '/var/log/aitecPHP/log.txt');
 	}
 }
 
