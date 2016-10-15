@@ -21,6 +21,9 @@ var chat = {
 		// Using the defaultText jQuery plugin, included at the bottom:
 		$('#name').defaultText('Nickname');
 		$('#email').defaultText('Email (Gravatars are Enabled)');
+
+		$('#adminName').defaultText('admin name');
+        $('#adminPassword').defaultText('admin password');
 		
 		// Converting the #chatLineHolder div into a jScrollPane,
 		// and saving the plugin's API in chat.data:
@@ -111,6 +114,7 @@ var chat = {
 			
 			$('#submitForm').fadeOut(function(){
 				$('#loginForm').fadeIn();
+				$('#adminLoginForm').fadeIn();
 			});
 			
 			$.chatPOST('logout');
@@ -148,6 +152,7 @@ var chat = {
 		$('#chatTopBar').html(chat.render('loginTopBar',chat.data));
 		
 		$('#loginForm').fadeOut(function(){
+		    $('#adminLoginForm').fadeOut();
 			$('#submitForm').fadeIn();
 			$('#chatText').focus();
 		});
