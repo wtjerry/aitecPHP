@@ -36,7 +36,7 @@ try{
 	switch($_GET['action']){
 
 		case 'register':
-		    $response = Chat::register($_POST['registerName'],$_POST['registerEmail']);
+		    $response = Chat::register($_POST['registerName'],$_POST['registerEmail'],$_POST['registerPassword'],$_POST['registerPasswordReenter']);
 		break;
 
 		case 'login':

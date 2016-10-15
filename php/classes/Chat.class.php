@@ -4,7 +4,7 @@
 
 class Chat{
 
-	public static function register($name,$email){
+	public static function register($name,$email,$password,$passwordReenter){
 
 	    if(!$name || !$email){
             throw new Exception('Fill in all the required fields.');
@@ -12,6 +12,15 @@ class Chat{
 
         if(!filter_input(INPUT_POST,'registerEmail',FILTER_VALIDATE_EMAIL)){
             throw new Exception('Your email is invalid.');
+        }
+
+        $passwordRegex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,100}$/";
+        if(!filter_var($password, FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>$passwordRegex)))){
+            throw new Exception('Password must be 8 to 100 characters long and contain at least one lower case letter, one upper case letter and a digit.');
+        }
+
+        if($password != $passwordReenter){
+            throw new Exception('The passwords you entered do not match.');
         }
 
         $gravatar = md5(strtolower(trim($email)));
