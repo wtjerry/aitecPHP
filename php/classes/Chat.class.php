@@ -25,8 +25,11 @@ class Chat{
 
         $gravatar = md5(strtolower(trim($email)));
 
+        $hashAndSalt = password_hash($password, PASSWORD_BCRYPT);
+
         $user = new ChatUser(array(
             'name'		=> $name,
+            'hashAndSalt'  => $hashAndSalt,
             'gravatar'	=> $gravatar
         ));
 
