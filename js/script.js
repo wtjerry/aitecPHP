@@ -20,6 +20,8 @@ var chat = {
 
 		$('#registerName').defaultText('Nickname');
         $('#registerEmail').defaultText('Email');
+        $('#registerPassword').defaultText('password');
+        $('#registerPasswordReenter').defaultText('password reenter');
 
 		// Using the defaultText jQuery plugin, included at the bottom:
 		$('#name').defaultText('Nickname');
