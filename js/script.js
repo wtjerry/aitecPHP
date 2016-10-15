@@ -17,7 +17,10 @@ var chat = {
 	// Init binds event listeners and sets up timers:
 	
 	init : function(){
-		
+
+		$('#registerName').defaultText('Nickname');
+        $('#registerEmail').defaultText('Email');
+
 		// Using the defaultText jQuery plugin, included at the bottom:
 		$('#name').defaultText('Nickname');
 		$('#email').defaultText('Email (Gravatars are Enabled)');
@@ -113,6 +116,7 @@ var chat = {
 			});
 			
 			$('#submitForm').fadeOut(function(){
+				$('#registerForm').fadeIn();
 				$('#loginForm').fadeIn();
 				$('#adminLoginForm').fadeIn();
 			});
@@ -152,6 +156,7 @@ var chat = {
 		$('#chatTopBar').html(chat.render('loginTopBar',chat.data));
 		
 		$('#loginForm').fadeOut(function(){
+		    $('#registerForm').fadeOut();
 		    $('#adminLoginForm').fadeOut();
 			$('#submitForm').fadeIn();
 			$('#chatText').focus();

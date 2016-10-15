@@ -20,7 +20,13 @@
     <div id="chatUsers" class="rounded"></div>
     <div id="chatBottomBar" class="rounded">
     	<div class="tip"></div>
-        
+
+        <form id="registerForm" method="post" action="">
+            <input id="registerName" name="registerName" class="rounded" maxlength="16" />
+            <input id="registerEmail" name="registerEmail" class="rounded" />
+            <input type="submit" class="blueButton" value="Register" />
+        </form>
+
         <form id="loginForm" method="post" action="">
             <input id="name" name="name" class="rounded" maxlength="16" />
             <input id="email" name="email" class="rounded" />
