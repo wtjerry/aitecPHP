@@ -2,7 +2,7 @@
 
 class ChatUser extends ChatBase{
 	
-	protected $name = '', $gravatar = '', $isLocked = 0;
+	protected $name = '', $gravatar = '', $isLocked = true;
 	
 	public function save(){
 
