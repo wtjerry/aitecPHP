@@ -62,6 +62,22 @@ var chat = {
 			
 			return false;
 		});
+
+		$('#registerForm').submit(function() {
+		    if(working) return false;
+            working = true;
+
+            $.chatPOST('register',$(this).serialize(), function(r){
+                working = false;
+
+                if(r.error){
+                    chat.displayError(r.error);
+                }
+                else chat.displaySuccess("You have successfully been registered.")
+            });
+
+            return false;
+		});
 		
 		// Submitting a new chat entry:
 		
@@ -337,18 +353,31 @@ var chat = {
 			html	: msg
 		});
 		
-		elem.click(function(){
-			$(this).fadeOut(function(){
-				$(this).remove();
-			});
-		});
-		
-		setTimeout(function(){
-			elem.click();
-		},5000);
-		
-		elem.hide().appendTo('body').slideDown();
-	}
+		chat.display(elem);
+	},
+
+	displaySuccess : function(msg){
+        var elem = $('<div>',{
+            id		: 'chatSuccessMessage',
+            html	: msg
+        });
+
+        chat.display(elem);
+    },
+
+    display : function(elem){
+        elem.click(function(){
+            $(this).fadeOut(function(){
+                $(this).remove();
+            });
+        });
+
+        setTimeout(function(){
+            elem.click();
+        },5000);
+
+        elem.hide().appendTo('body').slideDown();
+    }
 };
 
 // Custom GET & POST wrappers:

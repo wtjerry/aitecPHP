@@ -278,3 +278,18 @@ p.noChats,
 	
 	text-shadow:1px 1px 0 #940f0f;
 }
+
+#chatSuccessMessage{
+	width:100%;
+	top:0;
+	left:0;
+	position:fixed;
+	background-color:#08aa20;
+	border-bottom:1px solid #76d32a;
+	font-size:23px;
+	padding:16px;
+	text-align:center;
+	color:#fff;
+
+	text-shadow:1px 1px 0 #940f0f;
+}

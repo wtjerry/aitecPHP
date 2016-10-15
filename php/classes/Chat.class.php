@@ -3,7 +3,32 @@
 /* The Chat class exploses public static methods, used by ajax.php */
 
 class Chat{
-	
+
+	public static function register($name,$email){
+
+	    if(!$name || !$email){
+            throw new Exception('Fill in all the required fields.');
+        }
+
+        if(!filter_input(INPUT_POST,'registerEmail',FILTER_VALIDATE_EMAIL)){
+            throw new Exception('Your email is invalid.');
+        }
+
+        $gravatar = md5(strtolower(trim($email)));
+
+        $user = new ChatUser(array(
+            'name'		=> $name,
+            'gravatar'	=> $gravatar
+        ));
+
+        // The save method returns a MySQLi object
+        if($user->save()->affected_rows != 1){
+            throw new Exception('This nick is in use.');
+        }
+
+        return array('status' => 1);
+	}
+
 	public static function login($name,$email){
 		if(!$name || !$email){
 			throw new Exception('Fill in all the required fields.');
