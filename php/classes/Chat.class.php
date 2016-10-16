@@ -47,7 +47,7 @@ class Chat{
 			throw new Exception('Fill in all the required fields.');
 		}
 
-        $user = UserDB::getUserOrThrow($name,$password);
+        $user = UserDB::loginUserOrThrow($name,$password);
 
 		$_SESSION['user']	= array(
 			'name'		=> $user->getName(),
@@ -57,7 +57,7 @@ class Chat{
 		return array(
 			'status'	=> 1,
 			'name'		=> $user->getName(),
-			'gravatar'	=> Chat::gravatarFromHash($user->getGravatar())
+			'gravatar'	=> $user->getGravatarFromHash()
 		);
 	}
 	
@@ -68,7 +68,7 @@ class Chat{
 			$response['logged'] = true;
 			$response['loggedAs'] = array(
 				'name'		=> $_SESSION['user']['name'],
-				'gravatar'	=> Chat::gravatarFromHash($_SESSION['user']['gravatar'])
+				'gravatar'	=> Converter::convertHashToGravatar($_SESSION['user']['gravatar'])
 			);
 		}
 		
@@ -76,7 +76,7 @@ class Chat{
 	}
 	
 	public static function logout(){
-		DB::query("DELETE FROM webchat_users WHERE name = '".DB::esc($_SESSION['user']['name'])."'");
+        UserDB::logout(DB::esc($_SESSION['user']['name']));
 		
 		$_SESSION = array();
 		unset($_SESSION);
@@ -111,29 +111,27 @@ class Chat{
 	public static function getUsers(){
 		if($_SESSION['user']['name']){
 			$user = new ChatUser(array('name' => $_SESSION['user']['name']));
-			$user->update();
+			//$user->update();
 		}
-		
+
 		// Deleting chats older than 5 minutes and users inactive for 30 seconds
-		
 		DB::query("DELETE FROM webchat_lines WHERE ts < SUBTIME(NOW(),'0:5:0')");
-		DB::query("DELETE FROM webchat_users WHERE last_activity < SUBTIME(NOW(),'0:0:30')");
-		
-		$result = DB::query('SELECT * FROM webchat_users ORDER BY name ASC LIMIT 18');
-		
-		$users = array();
-		if($result) {
-			while($user = $result->fetch_object()){
-				$user->gravatar = Chat::gravatarFromHash($user->gravatar,30);
-				$users[] = $user;
-			}
-			
-			$total_users = DB::query('SELECT COUNT(*) as cnt FROM webchat_users')->fetch_object()->cnt;
-		}
-	
+		//UserDB::logoutInactiveUsers();
+
+		$usersDB = UserDB::getLoggedInUsers();
+
+        $users = array();
+        foreach($usersDB as $u){
+            $user = array(
+                'name' => $u->getName(),
+                'gravatar' => $u->getGravatarFromHash()
+            );
+            $users[] = $user;
+        }
+
 		return array(
 			'users' => $users,
-			'total' => $total_users
+			'total' => count($users)
 		);
 	}
 	
@@ -153,18 +151,13 @@ class Chat{
 					'minutes'	=> gmdate('i',strtotime($chat->ts))
 				);
 		
-				$chat->gravatar = Chat::gravatarFromHash($chat->gravatar);
+				$chat->gravatar = Converter::convertHashToGravatar($chat->gravatar);
 		
 				$chats[] = $chat;
 			}
 		}
 	
 		return array('chats' => $chats);
-	}
-	
-	public static function gravatarFromHash($hash, $size=23){
-		return 'http://www.gravatar.com/avatar/'.$hash.'?size='.$size.'&amp;default='.
-				urlencode('http://www.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?size='.$size);
 	}
 }
 

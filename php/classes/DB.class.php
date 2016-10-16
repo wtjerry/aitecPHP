@@ -31,7 +31,16 @@ class DB {
 	}
 	
 	public static function query($q){
-		return self::$instance->MySQLi->query($q);
+	    $queryResult = self::$instance->MySQLi->query($q);
+
+	    $error = DB::getMySQLiObject()->error;
+        if($error){
+    	    Logger::info("========== SQL query error ==========");
+	        Logger::info($q);
+            Logger::info($error);
+        }
+
+		return $queryResult;
 	}
 	
 	public static function esc($str){

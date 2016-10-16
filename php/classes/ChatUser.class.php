@@ -2,33 +2,39 @@
 
 class ChatUser extends ChatBase{
 	
-	protected $name = '', $gravatar = '', $hashAndSalt = '', $isLocked = true;
+	protected $name = '', $gravatar = '', $hashAndSalt = '', $isLocked = true, $isLoggedIn = 0;
 
 	public function getName(){
 	    return $this->name;
 	}
 
 	public function getGravatar(){
-    	    return $this->gravatar;
-    	}
+        return $this->gravatar;
+    }
+
+    public function getGravatarFromHash(){
+        return Converter::convertHashToGravatar($this->gravatar);
+    }
+
+    public function getIsLoggedIn(){
+        return $this->isLoggedIn;
+    }
 
 	public function save(){
 
-		DB::query("
-			INSERT INTO webchat_users (name, password, gravatar, is_locked)
-			VALUES (
-				'".DB::esc($this->name)."',
-				'".DB::esc($this->hashAndSalt)."',
-				'".DB::esc($this->gravatar)."',
-				$this->isLocked
-		)");
+        $q =
+        "INSERT INTO webchat_users (name, password, gravatar, is_locked, is_logged_in)
+        VALUES  (
+                '".DB::esc($this->name)."',
+                '".DB::esc($this->hashAndSalt)."',
+                '".DB::esc($this->gravatar)."',
+                ".var_export($this->isLocked, true).",
+                ".var_export($this->isLoggedIn, true)."
+                )";
 
-        $error = DB::getMySQLiObject()->error;
-        if($error){
-            Logger::info($error);
-        }
+		DB::query($q);
 
-		return DB::getMySQLiObject();
+        return DB::getMySQLiObject();
 	}
 	
 	public function update(){
