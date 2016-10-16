@@ -3,11 +3,17 @@
 class ChatUser extends ChatBase{
 	
 	protected $name = '', $gravatar = '', $hashAndSalt = '', $isLocked = true;
-	
+
+	public function getName(){
+	    return $this->name;
+	}
+
+	public function getGravatar(){
+    	    return $this->gravatar;
+    	}
+
 	public function save(){
 
-		Logger::info("name: ".$this->name." | pw: ".$this->hashAndSalt." | gravatar: ".$this->gravatar." | isLocked: ".$this->isLocked);
-		
 		DB::query("
 			INSERT INTO webchat_users (name, password, gravatar, is_locked)
 			VALUES (

@@ -15,6 +15,7 @@ $dbOptions = array(
 error_reporting(E_ALL ^ E_NOTICE);
 
 require "classes/DB.class.php";
+require "classes/DB/UserDB.class.php";
 require "classes/Logger.class.php";
 require "classes/Chat.class.php";
 require "classes/ChatBase.class.php";
@@ -40,7 +41,7 @@ try{
 		break;
 
 		case 'login':
-			$response = Chat::login($_POST['name'],$_POST['email']);
+			$response = Chat::login($_POST['name'],$_POST['password']);
 		break;
 		
 		case 'checkLogged':
