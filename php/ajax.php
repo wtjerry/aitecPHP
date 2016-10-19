@@ -22,6 +22,7 @@ require "classes/Chat.class.php";
 require "classes/ChatBase.class.php";
 require "classes/ChatLine.class.php";
 require "classes/ChatUser.class.php";
+require "classes/UserManagement.class.php";
 
 session_name('webchat');
 session_start();
@@ -44,7 +45,15 @@ try{
 		case 'login':
 			$response = Chat::login($_POST['name'],$_POST['password']);
 		break;
-		
+
+		case 'adminLogin':
+            $response = Chat::login($_POST['adminName'],$_POST['adminPassword']);
+        break;
+
+		case 'loadUsersForUserManagement':
+            $response = UserManagement::loadUsers();
+        break;
+
 		case 'checkLogged':
 			$response = Chat::checkLogged();
 		break;

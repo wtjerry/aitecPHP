@@ -20,6 +20,10 @@ class ChatUser extends ChatBase{
         return $this->isLoggedIn;
     }
 
+    public function getIsLocked(){
+        return $this->isLocked;
+    }
+
 	public function save(){
 
         $q =

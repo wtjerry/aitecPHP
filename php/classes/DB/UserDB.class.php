@@ -57,6 +57,23 @@ class UserDB {
         $escapedName = DB::esc($name);
         DB::query("UPDATE webchat_users SET last_activity = NOW() WHERE name = '$escapedName'");
     }
+
+    public static function getUsers(){
+        $queryResult = DB::query("SELECT * FROM webchat_users ORDER BY name ASC LIMIT 20");
+
+        $users = array();
+        if($queryResult) {
+            while($result = $queryResult->fetch_object()){
+                $user = new ChatUser(array(
+                    'name'		=> $result->name,
+                    'isLocked' 	=> $result->is_locked
+                ));
+                $users[] = $user;
+            }
+        }
+
+        return $users;
+    }
 }
 
 ?>

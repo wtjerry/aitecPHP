@@ -20,12 +20,12 @@ var chat = {
 
 		$('#registerName').defaultText('Nickname');
         $('#registerEmail').defaultText('Email');
-        $('#registerPassword').defaultText('password');
+        $('#registerPassword').defaultText('Password');
         $('#registerPasswordReenter').defaultText('password reenter');
 
 		// Using the defaultText jQuery plugin, included at the bottom:
 		$('#name').defaultText('Nickname');
-		$('#email').defaultText('Email (Gravatars are Enabled)');
+		$('#password').defaultText('Password');
 
 		$('#adminName').defaultText('admin name');
         $('#adminPassword').defaultText('admin password');
@@ -62,6 +62,23 @@ var chat = {
 				else chat.login(r.name,r.gravatar);
 			});
 			
+			return false;
+		});
+
+        $('#adminLoginForm').submit(function(){
+
+			if(working) return false;
+			working = true;
+
+			$.chatPOST('adminLogin',$(this).serialize(),function(r){
+				working = false;
+
+				if(r.error){
+					chat.displayError(r.error);
+				}
+				else chat.adminLogin(r.name);
+			});
+
 			return false;
 		});
 
@@ -181,6 +198,28 @@ var chat = {
 		});
 		
 	},
+
+	adminLogin : function(name){
+        $('#adminTopBar').html(chat.render('adminLoginTopBar',chat.data));
+
+        chat.data.name = name;
+        $('#chatContainer').fadeOut(function(){
+            $('#adminContainer').fadeIn();
+        });
+
+        $.chatPOST('loadUsersForUserManagement',$(this).serialize(),function(r){
+            var s = '<form name="users">';
+            for(var i=0;i<r.users.length;i++){
+                $user = r.users[i];
+                $nameAndLockedState = $user.name + ' ' + $user.isLocked;
+                s += '<input type="checkbox" name="u" value="' + $user.name + '">' + $nameAndLockedState + '</input>';
+                s += '<br>';
+            }
+            s+= '</form>';
+
+            $('#userManagement').html(s);
+        });
+    },
 	
 	// The render method generates the HTML markup 
 	// that is needed by the other methods:
@@ -195,6 +234,12 @@ var chat = {
 				'<span class="name">',params.name,
 				'</span><a href="" class="logoutButton rounded">Logout</a></span>'];
 			break;
+
+			case 'adminLoginTopBar':
+                arr = [
+                '<span class="name">',params.name,
+                '</span><a href="" class="logoutButton rounded">Logout</a></span>'];
+            break;
 			
 			case 'chatLine':
 				arr = [

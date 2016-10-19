@@ -1,0 +1,29 @@
+/* Main chat container */
+
+#adminContainer{
+	width:510px;
+	margin:100px auto;
+	position:relative;
+	display:none;
+}
+
+
+/* Top Bar */
+
+
+#adminTopBar{
+	height:40px;
+	background:url('../img/solid_gray.jpg') repeat-x #d0d0d0;
+	border:1px solid #fff;
+	margin-bottom:15px;
+	position:relative;
+	
+	color:#777;
+	text-shadow:1px 1px 0 #FFFFFF;
+}
+
+#adminTopBar .name{
+	position:absolute;
+	top:10px;
+	left:40px;
+}
