@@ -5,6 +5,8 @@ $(document).ready(function(){
 	
 });
 
+var userManagement = new UserManagement();
+
 var chat = {
 	
 	// data holds variables for use in the class:
@@ -207,18 +209,7 @@ var chat = {
             $('#adminContainer').fadeIn();
         });
 
-        $.chatPOST('loadUsersForUserManagement',$(this).serialize(),function(r){
-            var s = '<form name="users">';
-            for(var i=0;i<r.users.length;i++){
-                $user = r.users[i];
-                $nameAndLockedState = $user.name + ' ' + $user.isLocked;
-                s += '<input type="checkbox" name="u" value="' + $user.name + '">' + $nameAndLockedState + '</input>';
-                s += '<br>';
-            }
-            s+= '</form>';
-
-            $('#userManagement').html(s);
-        });
+        $.chatPOST('loadUsersForUserManagement',$(this).serialize(),function(r){userManagement.setUsers(r.users)});
     },
 	
 	// The render method generates the HTML markup 
