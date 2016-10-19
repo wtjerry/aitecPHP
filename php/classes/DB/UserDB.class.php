@@ -52,6 +52,11 @@ class UserDB {
 
         return $users;
     }
+
+    public static function updateLastActivity($name){
+        $escapedName = DB::esc($name);
+        DB::query("UPDATE webchat_users SET last_activity = NOW() WHERE name = '$escapedName'");
+    }
 }
 
 ?>

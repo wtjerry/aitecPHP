@@ -107,16 +107,16 @@ class Chat{
 			'insertID'	=> $insertID
 		);
 	}
-	
+
 	public static function getUsers(){
 		if($_SESSION['user']['name']){
 			$user = new ChatUser(array('name' => $_SESSION['user']['name']));
-			//$user->update();
+			$user->update();
 		}
 
 		// Deleting chats older than 5 minutes and users inactive for 30 seconds
 		DB::query("DELETE FROM webchat_lines WHERE ts < SUBTIME(NOW(),'0:5:0')");
-		//UserDB::logoutInactiveUsers();
+		UserDB::logoutInactiveUsers();
 
 		$usersDB = UserDB::getLoggedInUsers();
 

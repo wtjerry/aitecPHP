@@ -38,12 +38,7 @@ class ChatUser extends ChatBase{
 	}
 	
 	public function update(){
-		DB::query("
-			INSERT INTO webchat_users (name, gravatar)
-			VALUES (
-				'".DB::esc($this->name)."',
-				'".DB::esc($this->gravatar)."'
-			) ON DUPLICATE KEY UPDATE last_activity = NOW()");
+		UserDB::updateLastActivity($this->name);
 	}
 }
 
