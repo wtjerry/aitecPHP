@@ -23,31 +23,39 @@ UserManagement.prototype.setUsers = function(users) {
 
 UserManagement.prototype.unlockClicked = function() {
     var users = new Array();
-    $("input[type=checkbox]").each(function(){
-        var dict = {
-            "username" : this.id,
-            "shouldBeChanged" : this.checked
-        };
-        users.push(dict);
-    });
+    $("input[type=checkbox]")
+        .filter(function(index) {
+            return this.checked;
+        })
+        .each(function(){
+            users.push(this.id);
+        });
 
     var data = { "users" : users };
     $.chatPOST('unlockUsers',data,function(r){
+        if(r.error){
+            chat.displayError(r.error);
+        }
+        else chat.displaySuccess("Successfully unlocked users.");
     });
 };
 
 UserManagement.prototype.lockClicked = function() {
     var users = new Array();
-    $("input[type=checkbox]").each(function(){
-        var dict = {
-            "username" : this.id,
-            "shouldBeChanged" : this.checked
-        };
-        users.push(dict);
-    });
+    $("input[type=checkbox]")
+        .filter(function(index) {
+            return this.checked;
+        })
+        .each(function(){
+            users.push(this.id);
+        });
 
     var data = { "users" : users };
     $.chatPOST('lockUsers',data,function(r){
+        if(r.error){
+            chat.displayError(r.error);
+        }
+        else chat.displaySuccess("Successfully locked users.");
     });
 };
 

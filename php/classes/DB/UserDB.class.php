@@ -74,6 +74,30 @@ class UserDB {
 
         return $users;
     }
+
+    public static function unlockUsers($users) {
+        $escapedUsers = array();
+        foreach($users as $user) {
+            $escapedUser = DB::esc($user);
+            $escapedUsers[] = "'$escapedUser'";
+        }
+
+        $joinedUsers = join(',', $escapedUsers);
+        $query = "UPDATE webchat_users SET is_locked=0 WHERE name IN ( $joinedUsers );";
+        DB::query($query);
+    }
+
+    public static function lockUsers($users) {
+        $escapedUsers = array();
+        foreach($users as $user) {
+            $escapedUser = DB::esc($user);
+            $escapedUsers[] = "'$escapedUser'";
+        }
+
+        $joinedUsers = join(',', $escapedUsers);
+        $query = "UPDATE webchat_users SET is_locked=1 WHERE name IN ( $joinedUsers );";
+        DB::query($query);
+    }
 }
 
 ?>

@@ -18,13 +18,13 @@ class UserManagement{
 	}
 
 	public static function lockUsers($users){
-	    Logger::info("lock called with:");
-	    Logger::info(users);
+        UserDB::lockUsers($users);
+        return array('status' => 1);
 	}
 
 	public static function unlockUsers($users){
-        Logger::info("unlock called with:");
-        Logger::info(users);
+        UserDB::unlockUsers($users);
+        return array('status' => 1);
     }
 }
 
