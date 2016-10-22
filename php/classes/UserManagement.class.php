@@ -16,6 +16,16 @@ class UserManagement{
 
         return array('users' => $users);
 	}
+
+	public static function lockUsers($users){
+	    Logger::info("lock called with:");
+	    Logger::info(users);
+	}
+
+	public static function unlockUsers($users){
+        Logger::info("unlock called with:");
+        Logger::info(users);
+    }
 }
 
 

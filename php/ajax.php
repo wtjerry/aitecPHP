@@ -14,7 +14,7 @@ $dbOptions = array(
 //report everything except notice
 error_reporting(E_ALL ^ E_NOTICE);
 
-require "classes/DB.class.php";
+require "classes/DB/DB.class.php";
 require "classes/DB/UserDB.class.php";
 require "classes/Logger.class.php";
 require "classes/Converter.class.php";
@@ -73,7 +73,15 @@ try{
 		case 'getChats':
 			$response = Chat::getChats($_GET['lastID']);
 		break;
-		
+
+        case 'unlockUsers':
+            $response = UserManagement::unlockUsers($_POST['users']);
+        break;
+
+		case 'lockUsers':
+            $response = UserManagement::lockUsers($_POST['users']);
+        break;
+
 		default:
 			throw new Exception('Wrong action');
 	}
