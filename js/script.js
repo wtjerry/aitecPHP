@@ -146,7 +146,7 @@ var chat = {
 		
 		// Logging the user out:
 		
-		$('a.logoutButton').live('click',function(){
+		$('#userLogoutButton').live('click',function(){
 			
 			$('#chatTopBar > span').fadeOut(function(){
 				$(this).remove();
@@ -162,6 +162,20 @@ var chat = {
 			
 			return false;
 		});
+
+		$('#adminLogoutButton').live('click',function(){
+            $('#adminTopBar > span').fadeOut(function(){
+                $(this).remove();
+            });
+
+            $('#adminContainer').fadeOut(function(){
+                $('#chatContainer').fadeIn();
+            });
+
+            $.chatPOST('logout');
+
+            return false;
+        });
 		
 		// Checking whether the user is already logged (browser refresh)
 		
@@ -223,13 +237,13 @@ var chat = {
 				arr = [
 				'<span><img src="',params.gravatar,'" width="23" height="23" />',
 				'<span class="name">',params.name,
-				'</span><a href="" class="logoutButton rounded">Logout</a></span>'];
+				'</span><a href="" id="userLogoutButton" class="logoutButton rounded">Logout</a></span>'];
 			break;
 
 			case 'adminLoginTopBar':
                 arr = [
                 '<span class="name">',params.name,
-                '</span><a href="" class="logoutButton rounded">Logout</a></span>'];
+                '</span><a href="" id="adminLogoutButton" class="logoutButton rounded">Logout</a></span>'];
             break;
 			
 			case 'chatLine':
