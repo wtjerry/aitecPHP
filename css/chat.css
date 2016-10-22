@@ -264,10 +264,6 @@ p.noChats,
 	border-radius:4px;
 }
 
-.password{
-INPUT[type="password"]
-}
-
 #chatErrorMessage{
 	width:100%;
 	top:0;
