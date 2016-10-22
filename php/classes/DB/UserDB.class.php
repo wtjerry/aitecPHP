@@ -13,6 +13,10 @@ class UserDB {
 
         $result = $queryResult->fetch_object();
 
+        if($result->is_locked){
+            throw new Exception('User is locked');
+        }
+
         if(!password_verify($password, $result->password)){
             throw new Exception('Username or password incorrect.');
         }
