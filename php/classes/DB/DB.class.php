@@ -29,20 +29,20 @@ class DB {
 	public static function getMySQLiObject(){
 		return self::$instance->MySQLi;
 	}
-	
-	public static function query($q){
-	    $queryResult = self::$instance->MySQLi->query($q);
 
-	    $error = DB::getMySQLiObject()->error;
+	public static function query($q){
+        $queryResult = self::$instance->MySQLi->query($q);
+
+        $error = DB::getMySQLiObject()->error;
         if($error){
-    	    Logger::info("========== SQL query error ==========");
-	        Logger::info($q);
+            Logger::info("========== SQL query error ==========");
+            Logger::info($q);
             Logger::info($error);
         }
 
-		return $queryResult;
-	}
-	
+        return $queryResult;
+    }
+
 	public static function esc($str){
 		return self::$instance->MySQLi->real_escape_string($str);
 	}

@@ -15,6 +15,7 @@ $dbOptions = array(
 error_reporting(E_ALL ^ E_NOTICE);
 
 require "classes/DB/DB.class.php";
+require "classes/DB/NewDB.class.php";
 require "classes/DB/UserDB.class.php";
 require "classes/Logger.class.php";
 require "classes/Converter.class.php";
@@ -31,7 +32,8 @@ try{
 	
 	// Connecting to the database
 	DB::init($dbOptions);
-	
+	NewDB::init($dbOptions);
+
 	$response = array();
 	
 	// Handling the supported actions:
