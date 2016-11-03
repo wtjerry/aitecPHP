@@ -5,6 +5,8 @@ var UserManagement = function() {
 };
 
 UserManagement.prototype.setUsers = function(users) {
+    $("#users").empty();
+    
     for(var i=0;i<users.length;i++){
         $user = users[i];
 
