@@ -117,9 +117,7 @@ class Chat{
                 $user->update();
         }
 
-        // Deleting chats older than 5 minutes and users inactive for 30 seconds
-        OldDB::query("DELETE FROM webchat_lines WHERE ts < SUBTIME(NOW(),'0:5:0')");
-
+        ChatDB::deleteChatsOlderThan5Minutes();
         UserDB::logoutInactiveUsers();
 
         $usersDB = UserDB::getLoggedInUsers();

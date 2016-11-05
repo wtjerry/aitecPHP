@@ -24,12 +24,12 @@ class NewDB{
     public static function query($query, $values=array()){
         $prep = self::$instance->pdo->prepare($query);
 
-        Logger::info($query);
+        //Logger::info($query);
 
         if(!empty($values)) {
             $val = self::prepareValuesForQueryExecution($values);
-            Logger::info(count($values));
-            Logger::info($values[0]);
+            //Logger::info(count($values));
+            //Logger::info($values[0]);
             $prep->execute($val);
         }
         else {

@@ -38,7 +38,7 @@ class UserDB {
     }
 
     public static function logoutInactiveUsers(){
-        NewDB::query("UPDATE webchat_users SET is_logged_in=0 WHERE last_activity < ? ", array(date("H:i:s")));
+        NewDB::query("UPDATE webchat_users SET is_logged_in=0 WHERE last_activity < ? ", array(date("Y-m-d H:i:s")));
     }
 
     public static function getLoggedInUsers(){

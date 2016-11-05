@@ -17,6 +17,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 require "classes/DB/OldDB.class.php";
 require "classes/DB/NewDB.class.php";
 require "classes/DB/UserDB.class.php";
+require "classes/DB/ChatDB.class.php";
 require "classes/Logger.class.php";
 require "classes/Converter.class.php";
 require "classes/Chat.class.php";
