@@ -29,69 +29,69 @@ session_name('webchat');
 session_start();
 
 try{
-	
-	// Connecting to the database
-	OldDB::init($dbOptions);
-	NewDB::init($dbOptions);
 
-	$response = array();
-	
-	// Handling the supported actions:
-	
-	switch($_GET['action']){
+    // Connecting to the database
+    OldDB::init($dbOptions);
+    NewDB::init($dbOptions);
 
-		case 'register':
-		    $response = Chat::register($_POST['registerName'],$_POST['registerEmail'],$_POST['registerPassword'],$_POST['registerPasswordReenter']);
-		break;
+    $response = array();
 
-		case 'login':
-			$response = Chat::login($_POST['name'],$_POST['password']);
-		break;
+    // Handling the supported actions:
 
-		case 'adminLogin':
+    switch($_GET['action']) {
+
+        case 'register':
+            $response = Chat::register($_POST['registerName'],$_POST['registerEmail'],$_POST['registerPassword'],$_POST['registerPasswordReenter']);
+            break;
+
+        case 'login':
+            $response = Chat::login($_POST['name'],$_POST['password']);
+            break;
+
+        case 'adminLogin':
             $response = Chat::login($_POST['adminName'],$_POST['adminPassword']);
-        break;
+            break;
 
-		case 'loadUsersForUserManagement':
+        case 'loadUsersForUserManagement':
             $response = UserManagement::loadUsers();
-        break;
+            break;
 
-		case 'checkLogged':
-			$response = Chat::checkLogged();
-		break;
-		
-		case 'logout':
-			$response = Chat::logout();
-		break;
-		
-		case 'submitChat':
-			$response = Chat::submitChat($_POST['chatText']);
-		break;
-		
-		case 'getUsers':
-			$response = Chat::getUsers();
-		break;
-		
-		case 'getChats':
-			$response = Chat::getChats($_GET['lastID']);
-		break;
+        case 'checkLogged':
+            $response = Chat::checkLogged();
+            break;
+
+        case 'logout':
+            $response = Chat::logout();
+            break;
+
+        case 'submitChat':
+            $response = Chat::submitChat($_POST['chatText']);
+            break;
+
+        case 'getUsers':
+            $response = Chat::getUsers();
+            break;
+
+        case 'getChats':
+            $response = Chat::getChats($_GET['lastID']);
+            break;
 
         case 'unlockUsers':
             $response = UserManagement::unlockUsers($_POST['users']);
-        break;
+            break;
 
-		case 'lockUsers':
+        case 'lockUsers':
             $response = UserManagement::lockUsers($_POST['users']);
-        break;
+            break;
 
-		default:
-			throw new Exception('Wrong action');
-	}
-	
-	echo json_encode($response);
+        default:
+            throw new Exception('Wrong action');
+    }
+
+    echo json_encode($response);
 }
-catch(Exception $e){
-	die(json_encode(array('error' => $e->getMessage())));
+catch(Exception $e) {
+    die(json_encode(array('error' => $e->getMessage())));
 }
 
 ?>
