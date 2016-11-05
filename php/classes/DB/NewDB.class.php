@@ -14,6 +14,7 @@ class NewDB{
             throw new Exception("There is a problem with the DB connection sorry");
         }
     }
+    
     public static function init($dbInfo=array('host'=>"localhost", 'db'=>"test", 'dbuser'=>"aitec", 'dbpass'=>"aitec")){
         if(!(self::$instance instanceof self)){
             self::$instance = new NewDB($dbInfo);
@@ -21,6 +22,7 @@ class NewDB{
         }
         return false;
     }
+    
     public static function query($query, $values=array()){
         $prep = self::$instance->pdo->prepare($query);
 
@@ -37,9 +39,11 @@ class NewDB{
         }
         return $prep;
     }
+    
     public static function prepareValuesForQueryExecution($values){
         return array_map('htmlentities', $values);
     }
+    
     public static function getInstance(){
         return self::$instance->pdo;
     }
