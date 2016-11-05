@@ -75,16 +75,11 @@ class Chat{
         return $response;
     }
 	
-<<<<<<< HEAD
-	public static function logout(){
+    public static function logout(){
         UserDB::logout(OldDB::esc($_SESSION['user']['name']));
 		
-		$_SESSION = array();
-		unset($_SESSION);
-=======
-    public static function logout() {
-        UserDB::logout(NewDB::esc($_SESSION['user']['name']));
->>>>>>> eccca4e... refactoring: reformated class chat
+        $_SESSION = array();
+        unset($_SESSION);
 
         $_SESSION = array();
         unset($_SESSION);
