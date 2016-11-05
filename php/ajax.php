@@ -14,7 +14,7 @@ $dbOptions = array(
 //report everything except notice
 error_reporting(E_ALL ^ E_NOTICE);
 
-require "classes/DB/DB.class.php";
+require "classes/DB/OldDB.class.php";
 require "classes/DB/NewDB.class.php";
 require "classes/DB/UserDB.class.php";
 require "classes/Logger.class.php";
