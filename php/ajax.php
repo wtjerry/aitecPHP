@@ -31,7 +31,7 @@ session_start();
 try{
 	
 	// Connecting to the database
-	DB::init($dbOptions);
+	OldDB::init($dbOptions);
 	NewDB::init($dbOptions);
 
 	$response = array();

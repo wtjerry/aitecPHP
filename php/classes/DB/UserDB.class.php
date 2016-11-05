@@ -4,7 +4,7 @@ class UserDB {
 
     public static function loginUserOrThrow($name,$password){
 
-        $escapedName = DB::esc($name);
+        $escapedName = OldDB::esc($name);
         $queryResult = NewDB::query("SELECT * FROM webchat_users WHERE name = ?", array($escapedName));
 
         
@@ -33,7 +33,7 @@ class UserDB {
     }
 
     public static function logout($name){
-        $escapedName = DB::esc($name);
+        $escapedName = OldDB::esc($name);
         NewDB::query("UPDATE webchat_users SET is_logged_in=0 WHERE name = ?", array($escapedName));
     }
 
@@ -59,7 +59,7 @@ class UserDB {
     }
 
     public static function updateLastActivity($name){
-        $escapedName = DB::esc($name);
+        $escapedName = OldDB::esc($name);
         NewDB::query("UPDATE webchat_users SET last_activity = ? WHERE name = ?", array(date("Y-m-d H:i:s"), $escapedName));
     }
 
@@ -85,7 +85,7 @@ class UserDB {
         $questionMarks = array();
         $escapedUsers = array();
         foreach($users as $user) {
-            $escapedUser = DB::esc($user);
+            $escapedUser = OldDB::esc($user);
             $escapedUsers[] = $escapedUser;
             $questionMarks[] = "?";
         }
@@ -100,7 +100,7 @@ class UserDB {
         $questionMarks = array();
         $escapedUsers = array();
         foreach ($users as $user) {
-            $escapedUser = DB::esc($user);
+            $escapedUser = OldDB::esc($user);
             $escapedUsers[] = $escapedUser;
             $questionMarks[] = "?";
         }

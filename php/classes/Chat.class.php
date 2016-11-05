@@ -76,7 +76,7 @@ class Chat{
 	}
 	
 	public static function logout(){
-        UserDB::logout(DB::esc($_SESSION['user']['name']));
+        UserDB::logout(OldDB::esc($_SESSION['user']['name']));
 		
 		$_SESSION = array();
 		unset($_SESSION);
@@ -115,7 +115,7 @@ class Chat{
 		}
 
 		// Deleting chats older than 5 minutes and users inactive for 30 seconds
-		DB::query("DELETE FROM webchat_lines WHERE ts < SUBTIME(NOW(),'0:5:0')");
+		OldDB::query("DELETE FROM webchat_lines WHERE ts < SUBTIME(NOW(),'0:5:0')");
 		UserDB::logoutInactiveUsers();
 
 		$usersDB = UserDB::getLoggedInUsers();
@@ -138,7 +138,7 @@ class Chat{
 	public static function getChats($lastID){
 		$lastID = (int)$lastID;
 	
-		$result = DB::query('SELECT * FROM webchat_lines WHERE id > '.$lastID.' ORDER BY id ASC');
+		$result = OldDB::query('SELECT * FROM webchat_lines WHERE id > '.$lastID.' ORDER BY id ASC');
 	
 		$chats = array();
 		if($result) {

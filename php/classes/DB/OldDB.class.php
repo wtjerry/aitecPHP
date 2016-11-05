@@ -1,6 +1,6 @@
 <?php
 
-class DB {
+class OldDB {
 	private static $instance;
 	private $MySQLi;
 	
@@ -33,7 +33,7 @@ class DB {
 	public static function query($q){
         $queryResult = self::$instance->MySQLi->query($q);
 
-        $error = DB::getMySQLiObject()->error;
+        $error = OldDB::getMySQLiObject()->error;
         if($error){
             Logger::info("========== SQL query error ==========");
             Logger::info($q);
