@@ -97,11 +97,11 @@ class Chat{
         }
 
         $chat = new ChatLine(array(
-                'author'	=> $_SESSION['user']['name'],
-                'gravatar'	=> $_SESSION['user']['gravatar'],
-                'text'	=> $chatText
+                'author'                 => $_SESSION['user']['name'],
+                'gravatarHash'      => $_SESSION['user']['gravatar'],
+                'text'                      => utf8_encode($chatText)
         ));
-
+        
         // The save method returns a MySQLi object
         $insertID = $chat->save()->insert_id;
 
@@ -138,28 +138,23 @@ class Chat{
     }
 	
     public static function getChats($lastID){
-        $lastID = (int)$lastID;
-
-        $result = OldDB::query('SELECT * FROM webchat_lines WHERE id > '.$lastID.' ORDER BY id ASC');
-
-        $chats = array();
-        if($result) {
-            while($chat = $result->fetch_object()){
-
-                // Returning the GMT (UTC) time of the chat creation:
-
-                $chat->time = array(
-                        'hours'		=> gmdate('H',strtotime($chat->ts)),
-                        'minutes'	=> gmdate('i',strtotime($chat->ts))
+       $results = ChatDB::getChatLinesNewerThanId($lastID);
+        
+        $chatLines = array();
+        if($results) {
+            foreach ($results as $r) {
+                $chatLine = array(
+                    'text'          => $r->getText(),
+                    'author'     => $r->getAuthor(),
+                    'gravatar'   => $r->getGravatarFromHash(),
+                    'time'         => $r->getTime(),
+                    'id'             => $r->getId(),
                 );
-
-                $chat->gravatar = Converter::convertHashToGravatar($chat->gravatar);
-
-                $chats[] = $chat;
+                $chatLines[] = $chatLine;
             }
         }
 
-        return array('chats' => $chats);
+        return array('chats' => $chatLines);
     }
 }
 

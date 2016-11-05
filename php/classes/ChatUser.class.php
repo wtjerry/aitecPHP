@@ -2,13 +2,13 @@
 
 class ChatUser extends ChatBase{
 	
-	protected $name = '', $gravatar = '', $hashAndSalt = '', $isLocked = true, $isLoggedIn = 0;
+    protected $name = '', $gravatar = '', $hashAndSalt = '', $isLocked = true, $isLoggedIn = 0;
 
-	public function getName(){
-	    return $this->name;
-	}
+    public function getName(){
+        return $this->name;
+    }
 
-	public function getGravatar(){
+    public function getGravatar(){
         return $this->gravatar;
     }
 
@@ -24,11 +24,11 @@ class ChatUser extends ChatBase{
         return $this->isLocked;
     }
 
-	public function save(){
+    public function save(){
 
         $q =
-        "INSERT INTO webchat_users (name, password, gravatar, is_locked, is_logged_in)
-        VALUES  (
+            "INSERT INTO webchat_users (name, password, gravatar, is_locked, is_logged_in)
+            VALUES  (
                 '".OldDB::esc($this->name)."',
                 '".OldDB::esc($this->hashAndSalt)."',
                 '".OldDB::esc($this->gravatar)."',
@@ -36,14 +36,14 @@ class ChatUser extends ChatBase{
                 ".var_export($this->isLoggedIn, true)."
                 )";
 
-		OldDB::query($q);
+        OldDB::query($q);
 
         return OldDB::getMySQLiObject();
-	}
-	
-	public function update(){
-		UserDB::updateLastActivity($this->name);
-	}
+    }
+
+    public function update(){
+        UserDB::updateLastActivity($this->name);
+    }
 }
 
 ?>
