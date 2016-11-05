@@ -103,8 +103,8 @@ class Chat{
         ));
         
         // The save method returns a MySQLi object
-        $insertID = $chat->save()->insert_id;
-
+        $insertID = $chat->save();
+                
         return array(
                 'status'	=> 1,
                 'insertID'	=> $insertID

@@ -27,17 +27,11 @@ class ChatLine extends ChatBase{
     }
 
     public function save(){
-            OldDB::query("
-                    INSERT INTO webchat_lines (author, gravatar, text)
-                    VALUES (
-                            '".OldDB::esc($this->author)."',
-                            '".OldDB::esc($this->gravatarHash)."',
-                            '".OldDB::esc($this->text)."'
-            )");
-
-            // Returns the MySQLi object of the DB class
-
-            return OldDB::getMySQLiObject();
+        $q = "INSERT INTO webchat_lines (author, gravatar, text) VALUES ( ?, ?, ?)";
+        $params = array($this->author, $this->gravatarHash, $this->text);
+        NewDB::query($q, $params);
+        
+        return NewDB::getInstance()->lastInsertId();
     }
 }
 
