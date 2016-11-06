@@ -34,10 +34,11 @@ class Chat{
             'gravatar'          => $gravatar
         ));
 
-        // The save method returns a MySQLi object
-        if($user->save()->affected_rows != 1){
+        if(UserDB::isUsernameOccupied($name)) {
             throw new Exception('This nick is in use.');
         }
+        
+        $user->save();
 
         return array('status' => 1);
     }

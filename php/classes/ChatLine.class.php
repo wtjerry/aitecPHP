@@ -30,7 +30,6 @@ class ChatLine extends ChatBase{
         $q = "INSERT INTO webchat_lines (author, gravatar, text) VALUES ( ?, ?, ?)";
         $params = array($this->author, $this->gravatarHash, $this->text);
         NewDB::query($q, $params);
-        
         return NewDB::getInstance()->lastInsertId();
     }
 }

@@ -79,6 +79,12 @@ class UserDB {
 
         return $users;
     }
+    
+    public static function isUsernameOccupied($name) {
+        $queryResult = NewDB::query("SELECT 1 FROM webchat_users WHERE name = ? LIMIT 1", array($name));
+        $isUsernameFree = $queryResult->rowCount() == 1;
+        return $isUsernameFree;
+    }
 
     public static function unlockUsers($users) {
         

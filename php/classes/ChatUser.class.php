@@ -25,20 +25,9 @@ class ChatUser extends ChatBase{
     }
 
     public function save(){
-
-        $q =
-            "INSERT INTO webchat_users (name, password, gravatar, is_locked, is_logged_in)
-            VALUES  (
-                '".OldDB::esc($this->name)."',
-                '".OldDB::esc($this->hashAndSalt)."',
-                '".OldDB::esc($this->gravatar)."',
-                ".var_export($this->isLocked, true).",
-                ".var_export($this->isLoggedIn, true)."
-                )";
-
-        OldDB::query($q);
-
-        return OldDB::getMySQLiObject();
+        $q = "INSERT INTO webchat_users (name, password, gravatar, is_locked, is_logged_in) VALUES ( ?, ?, ?, ?, ?)";
+        $params = array($this->name, $this->hashAndSalt, $this->gravatar, $this->isLocked, $this->isLoggedIn);
+        NewDB::query($q, $params);
     }
 
     public function update(){
