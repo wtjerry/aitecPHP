@@ -6,11 +6,11 @@ class ChatDB {
         $fiveMinutesBeforeNow = new DateTime();
         $fiveMinutesBeforeNow->modify('-5 minutes');
         $fiveMinutesBeforeNowAsString = $fiveMinutesBeforeNow->format('Y-m-d H:i:s');
-        NewDB::query("DELETE FROM webchat_lines WHERE ts < ?", array($fiveMinutesBeforeNowAsString));
+        DB::query("DELETE FROM webchat_lines WHERE ts < ?", array($fiveMinutesBeforeNowAsString));
     }
     
     public static function getChatLinesNewerThanId($lastID) {
-        $queryResult = NewDB::query("SELECT * FROM webchat_lines WHERE id > ? ORDER BY id ASC", array($lastID));
+        $queryResult = DB::query("SELECT * FROM webchat_lines WHERE id > ? ORDER BY id ASC", array($lastID));
 
         $chatLines = array();
         if ($queryResult->rowCount() > 0) {

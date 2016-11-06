@@ -2,7 +2,7 @@
 
 
 
-class NewDB{
+class DB{
     private static $instance;
     private $pdo;
 
@@ -17,7 +17,7 @@ class NewDB{
     
     public static function init($dbInfo=array('host'=>"localhost", 'db'=>"test", 'dbuser'=>"aitec", 'dbpass'=>"aitec")){
         if(!(self::$instance instanceof self)){
-            self::$instance = new NewDB($dbInfo);
+            self::$instance = new DB($dbInfo);
             return true;
         }
         return false;

@@ -14,8 +14,7 @@ $dbOptions = array(
 //report everything except notice
 error_reporting(E_ALL ^ E_NOTICE);
 
-require "classes/DB/OldDB.class.php";
-require "classes/DB/NewDB.class.php";
+require "classes/DB/DB.class.php";
 require "classes/DB/UserDB.class.php";
 require "classes/DB/ChatDB.class.php";
 require "classes/Logger.class.php";
@@ -32,8 +31,7 @@ session_start();
 try{
 
     // Connecting to the database
-    OldDB::init($dbOptions);
-    NewDB::init($dbOptions);
+    DB::init($dbOptions);
 
     $response = array();
 

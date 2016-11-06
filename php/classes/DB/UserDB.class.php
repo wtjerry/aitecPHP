@@ -4,8 +4,7 @@ class UserDB {
 
     public static function loginUserOrThrow($name,$password){
 
-        $escapedName = OldDB::esc($name);
-        $queryResult = NewDB::query("SELECT * FROM webchat_users WHERE name = ?", array($escapedName));
+        $queryResult = DB::query("SELECT * FROM webchat_users WHERE name = ?", array($name));
 
         
         if($queryResult->rowCount() != 1){
@@ -22,7 +21,7 @@ class UserDB {
             throw new Exception('Username or password incorrect.');
         }
 
-        NewDB::query("UPDATE webchat_users SET is_logged_in=1 WHERE name = ?", array($escapedName));
+        DB::query("UPDATE webchat_users SET is_logged_in=1 WHERE name = ?", array($name));
 
         $user = new ChatUser(array(
             'name'	=> $result->name,
@@ -33,16 +32,15 @@ class UserDB {
     }
 
     public static function logout($name){
-        $escapedName = OldDB::esc($name);
-        NewDB::query("UPDATE webchat_users SET is_logged_in=0 WHERE name = ?", array($escapedName));
+        DB::query("UPDATE webchat_users SET is_logged_in=0 WHERE name = ?", array($name));
     }
 
     public static function logoutInactiveUsers(){
-        NewDB::query("UPDATE webchat_users SET is_logged_in=0 WHERE last_activity < ? ", array(date("Y-m-d H:i:s")));
+        DB::query("UPDATE webchat_users SET is_logged_in=0 WHERE last_activity < ? ", array(date("Y-m-d H:i:s")));
     }
 
     public static function getLoggedInUsers(){
-        $queryResult = NewDB::query("SELECT * FROM webchat_users WHERE is_logged_in = true ORDER BY name ASC LIMIT 18");
+        $queryResult = DB::query("SELECT * FROM webchat_users WHERE is_logged_in = true ORDER BY name ASC LIMIT 18");
 
         $users = array();
         if($queryResult->rowCount() > 0) {
@@ -59,12 +57,11 @@ class UserDB {
     }
 
     public static function updateLastActivity($name){
-        $escapedName = OldDB::esc($name);
-        NewDB::query("UPDATE webchat_users SET last_activity = ? WHERE name = ?", array(date("Y-m-d H:i:s"), $escapedName));
+        DB::query("UPDATE webchat_users SET last_activity = ? WHERE name = ?", array(date("Y-m-d H:i:s"), $name));
     }
 
     public static function getUsers(){
-        $queryResult = NewDB::query("SELECT * FROM webchat_users ORDER BY name ASC LIMIT 20");
+        $queryResult = DB::query("SELECT * FROM webchat_users ORDER BY name ASC LIMIT 20");
 
         $users = array();
         if($queryResult) {
@@ -81,7 +78,7 @@ class UserDB {
     }
     
     public static function isUsernameOccupied($name) {
-        $queryResult = NewDB::query("SELECT 1 FROM webchat_users WHERE name = ? LIMIT 1", array($name));
+        $queryResult = DB::query("SELECT 1 FROM webchat_users WHERE name = ? LIMIT 1", array($name));
         $isUsernameFree = $queryResult->rowCount() == 1;
         return $isUsernameFree;
     }
@@ -91,14 +88,14 @@ class UserDB {
         $questionMarks = array();
         $escapedUsers = array();
         foreach($users as $user) {
-            $escapedUser = OldDB::esc($user);
+            $escapedUser = $user;
             $escapedUsers[] = $escapedUser;
             $questionMarks[] = "?";
         }
 
         $placeholders = join(", ", $questionMarks);
         $query = "UPDATE webchat_users SET is_locked=0 WHERE name IN ( $placeholders );";
-        NewDB::query($query, $escapedUsers);
+        DB::query($query, $escapedUsers);
     }
 
     public static function lockUsers($users) {
@@ -106,14 +103,14 @@ class UserDB {
         $questionMarks = array();
         $escapedUsers = array();
         foreach ($users as $user) {
-            $escapedUser = OldDB::esc($user);
+            $escapedUser = $user;
             $escapedUsers[] = $escapedUser;
             $questionMarks[] = "?";
         }
 
         $placeholders = join(", ", $questionMarks);
         $query = "UPDATE webchat_users SET is_locked=1 WHERE name IN ( $placeholders );";
-        NewDB::query($query, $escapedUsers);
+        DB::query($query, $escapedUsers);
     }
 }
 

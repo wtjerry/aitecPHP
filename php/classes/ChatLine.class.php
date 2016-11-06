@@ -29,8 +29,8 @@ class ChatLine extends ChatBase{
     public function save(){
         $q = "INSERT INTO webchat_lines (author, gravatar, text) VALUES ( ?, ?, ?)";
         $params = array($this->author, $this->gravatarHash, $this->text);
-        NewDB::query($q, $params);
-        return NewDB::getInstance()->lastInsertId();
+        DB::query($q, $params);
+        return DB::getInstance()->lastInsertId();
     }
 }
 

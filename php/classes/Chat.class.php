@@ -77,7 +77,7 @@ class Chat{
     }
 	
     public static function logout(){
-        UserDB::logout(OldDB::esc($_SESSION['user']['name']));
+        UserDB::logout($_SESSION['user']['name']);
 		
         $_SESSION = array();
         unset($_SESSION);
